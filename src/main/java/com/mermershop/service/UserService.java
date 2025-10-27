@@ -1,7 +1,7 @@
 package com.mermershop.service;
 
-import com.mermershop.dto.LoginRequest;
-import com.mermershop.dto.RegisterRequest;
+import com.mermershop.dto.LoginDto;
+import com.mermershop.dto.RegisterDto;
 import com.mermershop.model.User;
 import com.mermershop.repository.UserRepository;
 import org.springframework.stereotype.Service;
@@ -17,20 +17,20 @@ public class UserService {
         this.userRepository = userRepository;
     }
     
-    public User register(RegisterRequest request, User.Role role) {
+    public User register(RegisterDto request, User.Role role) {
         if (userRepository.existsByUsername(request.getUsername())) {
-            throw new RuntimeException("Username already exists");
+            throw new RuntimeException("Benutzername existiert bereits.");
         }
         
         User user = new User();
         user.setUsername(request.getUsername());
-        user.setPassword(request.getPassword()); // In production: Hash the password!
+        user.setPassword(request.getPassword());
         user.setRole(role);
         
         return userRepository.save(user);
     }
     
-    public Optional<User> login(LoginRequest request) {
+    public Optional<User> login(LoginDto request) {
         return userRepository.findByUsername(request.getUsername())
                 .filter(user -> user.getPassword().equals(request.getPassword()));
     }

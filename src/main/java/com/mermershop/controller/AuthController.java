@@ -1,7 +1,7 @@
 package com.mermershop.controller;
 
-import com.mermershop.dto.LoginRequest;
-import com.mermershop.dto.RegisterRequest;
+import com.mermershop.dto.LoginDto;
+import com.mermershop.dto.RegisterDto;
 import com.mermershop.model.User;
 import com.mermershop.service.UserService;
 import jakarta.servlet.http.HttpSession;
@@ -26,12 +26,12 @@ public class AuthController {
     // LOGIN
     @GetMapping("/login")
     public String loginPage(Model model) {
-        model.addAttribute("loginRequest", new LoginRequest());
+        model.addAttribute("loginRequest", new LoginDto());
         return "login";
     }
     
     @PostMapping("/login")
-    public String login(@ModelAttribute LoginRequest request, HttpSession session, Model model) {
+    public String login(@ModelAttribute LoginDto request, HttpSession session, Model model) {
         return userService.login(request)
                 .map(user -> {
                     session.setAttribute("userId", user.getId());
@@ -45,23 +45,22 @@ public class AuthController {
                     }
                 })
                 .orElseGet(() -> {
-                    model.addAttribute("error", "Invalid username or password");
+                    model.addAttribute("error", "Ungültiger Benutzername oder Passwort.");
                     return "login";
                 });
     }
     
-    // REGISTER
     @GetMapping("/register")
     public String registerPage(Model model) {
-        model.addAttribute("registerRequest", new RegisterRequest());
+        model.addAttribute("registerRequest", new RegisterDto());
         return "register";
     }
     
     @PostMapping("/register")
-    public String register(@ModelAttribute RegisterRequest request, Model model) {
+    public String register(@ModelAttribute RegisterDto request, Model model) {
         try {
             userService.register(request, User.Role.USER);
-            model.addAttribute("success", "Registration successful! Please login.");
+            model.addAttribute("success", "Registrierung erfolgreich! Bitte einloggen.");
             return "login";
         } catch (Exception e) {
             model.addAttribute("error", e.getMessage());
@@ -69,26 +68,6 @@ public class AuthController {
         }
     }
     
-    // ADMIN REGISTER
-    @GetMapping("/register/admin")
-    public String adminRegisterPage(Model model) {
-        model.addAttribute("registerRequest", new RegisterRequest());
-        return "register-admin";
-    }
-    
-    @PostMapping("/register/admin")
-    public String registerAdmin(@ModelAttribute RegisterRequest request, Model model) {
-        try {
-            userService.register(request, User.Role.ADMIN);
-            model.addAttribute("success", "Admin registration successful! Please login.");
-            return "login";
-        } catch (Exception e) {
-            model.addAttribute("error", e.getMessage());
-            return "register-admin";
-        }
-    }
-    
-    // LOGOUT
     @GetMapping("/logout")
     public String logout(HttpSession session) {
         session.invalidate();

@@ -19,7 +19,6 @@ public class DataSeeder {
                 admin.setPassword("12340000");
                 admin.setRole(User.Role.ADMIN);
                 userRepository.save(admin);
-                System.out.println("✅ Admin user created: admin / 12340000");
             }
             
             // Check if user already exists
@@ -29,7 +28,6 @@ public class DataSeeder {
                 user.setPassword("12340000");
                 user.setRole(User.Role.USER);
                 userRepository.save(user);
-                System.out.println("✅ Regular user created: user / 12340000");
             }
         };
     }

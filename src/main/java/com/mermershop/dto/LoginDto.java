@@ -3,7 +3,7 @@ package com.mermershop.dto;
 import lombok.Data;
 
 @Data
-public class RegisterRequest {
+public class LoginDto {
     private String username;
     private String password;
 }

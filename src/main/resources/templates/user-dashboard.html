@@ -4,73 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Dashboard - Mermer Shop</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            font-family: Arial, sans-serif;
-            background: #f5f5f5;
-        }
-        .navbar {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .navbar h1 {
-            font-size: 24px;
-        }
-        .navbar a {
-            color: white;
-            text-decoration: none;
-            padding: 10px 20px;
-            background: rgba(255,255,255,0.2);
-            border-radius: 5px;
-        }
-        .navbar a:hover {
-            background: rgba(255,255,255,0.3);
-        }
-        .container {
-            max-width: 1200px;
-            margin: 50px auto;
-            padding: 0 20px;
-        }
-        .welcome {
-            background: white;
-            padding: 40px;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            text-align: center;
-        }
-        .welcome h2 {
-            color: #333;
-            margin-bottom: 20px;
-        }
-        .welcome p {
-            color: #666;
-            font-size: 18px;
-        }
-    </style>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}">
 </head>
 <body>
-    <div class="navbar">
-        <h1>🛍️ Mermer Shop - User</h1>
-        <div>
-            <span th:text="${username}"></span> | 
-            <a th:href="@{/logout}">Logout</a>
+    <nav class="navbar">
+        <h1>🛍️ Mermer Shop - Benutzer</h1>
+        <div class="navbar-right">
+            <span class="navbar-user" th:text="${username}"></span>
+            <a th:href="@{/logout}" class="navbar-link">Logout</a>
         </div>
-    </div>
+    </nav>
     
-    <div class="container">
-        <div class="welcome">
-            <h2>Welcome, <span th:text="${username}"></span>! 👋</h2>
-            <p>This is your user dashboard.</p>
-            <p>More features coming soon...</p>
+    <div class="container dashboard">
+        <div class="welcome-card">
+            <h2>Willkommen, <span th:text="${username}"></span>! 👋</h2>
+            <p>Das ist die Benutzeroberfläche.</p>
+            <p>Weitere Funktionen kommen bald...</p>
         </div>
     </div>
 </body>
