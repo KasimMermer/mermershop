@@ -4,7 +4,9 @@
 <div th:fragment="productList">
     <!-- Erfolgsmeldung -->
     <div th:if="${param.success}" class="alert alert-success mt-lg">
-        Produkt erfolgreich hinzugefügt!
+        <span th:if="${param.updated}">Produkt erfolgreich aktualisiert!</span>
+        <span th:if="${param.deleted}">Produkt erfolgreich gelöscht!</span>
+        <span th:unless="${param.updated} or ${param.deleted}">Produkt erfolgreich hinzugefügt!</span>
     </div>
     
     <!-- Fehlermeldung -->
@@ -33,6 +35,15 @@
                 <h3 th:text="${product.name}"></h3>
                 <p th:text="${product.description}" class="text-muted"></p>
                 <p><strong th:text="${#numbers.formatDecimal(product.price, 1, 2)} + ' €'"></strong></p>
+                
+                <!-- Admin Buttons -->
+                <div th:if="${role} == 'ADMIN'" style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+                    <a th:href="@{/products/edit/{id}(id=${product.id})}" class="update-product ">Update</a>
+                    <form th:action="@{/products/delete/{id}(id=${product.id})}" method="post"
+                          onsubmit="return confirm('Möchtest du dieses Produkt wirklich löschen?');">
+                        <button type="submit" class="delete-product">Delete</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

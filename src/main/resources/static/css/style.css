@@ -198,3 +198,16 @@ select:focus {
     margin: var(--spacing-lg);
     width: fit-content;
 }
+
+.update-product {
+    color: var(--primary-color);
+}
+
+.delete-product {
+    background: var(--error-color);
+    border: none;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    padding: 5px;
+    color: var(--white);
+}

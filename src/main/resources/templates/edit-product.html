@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Produkt bearbeiten - Mermer Shop</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}">
+</head>
+<body>
+    <nav class="navbar admin-theme">
+        <h1>👑 Mermer Shop - Admin</h1>
+        <div class="navbar-right">
+            <span class="navbar-user" th:text="${username}"></span>
+            <a th:href="@{/admin/dashboard}" class="navbar-link">Dashboard</a>
+            <a th:href="@{/logout}" class="navbar-link">Logout</a>
+        </div>
+    </nav>
+    
+    <div class="container dashboard">
+        <div class="card">
+            <h2>Produkt bearbeiten</h2>
+            
+            <form th:action="@{/products/edit/{id}(id=${productId})}" th:object="${productDto}" method="post" enctype="multipart/form-data" class="mt-md">
+                <div class="form-group">
+                    <label for="name">Produktname</label>
+                    <input type="text" id="name" th:field="*{name}" required 
+                           placeholder="Name des Produkts">
+                </div>
+                
+                <div class="form-group">
+                    <label for="description">Beschreibung</label>
+                    <textarea id="description" th:field="*{description}" rows="4" required
+                              placeholder="Beschreibe das Produkt..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="price">Preis (€)</label>
+                    <input type="number" id="price" th:field="*{price}" step="0.01" min="0" required
+                           placeholder="20.00">
+                </div>
+                
+                <div class="form-group">
+                    <label>Aktuelles Bild</label>
+                    <img th:if="${currentImageUrl}" th:src="@{${currentImageUrl}}" 
+                         alt="Aktuelles Produktbild" 
+                         style="max-width: 200px; border-radius: 8px; margin-top: 0.5rem;">
+                </div>
+                
+                <div class="form-group">
+                    <label for="image">Neues Bild hochladen (optional, jpg, png, webp)</label>
+                    <input type="file" id="image" name="image" accept=".jpg,.jpeg,.png,.webp">
+                    <small class="text-muted">Lasse dieses Feld leer, um das aktuelle Bild zu behalten</small>
+                </div>
+                
+                <div class="form-actions mt-md">
+                    <button type="submit" class="btn btn-primary">Änderungen speichern</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
