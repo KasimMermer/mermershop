@@ -12,13 +12,15 @@
         <h1>Mermer Shop - Benutzer</h1>
         <div class="navbar-right">
             <span class="navbar-user" th:text="${username}"></span>
+            <a th:href="@{/cart}" class="navbar-link">Warenkorb</a>
+            <a th:href="@{/profile}" class="navbar-link">Profil</a>
             <a th:href="@{/logout}" class="navbar-link">Logout</a>
         </div>
     </nav>
     
     <div class="container dashboard">
         <div class="welcome-card">
-            <h2>Willkommen, <span th:text="${username}"></span>! 👋</h2>
+            <h2>Willkommen, <span th:text="${username}"></span>!</h2>
             <p>Das ist die Benutzeroberfläche.</p>
             
             <div th:replace="~{products :: productList}"></div>

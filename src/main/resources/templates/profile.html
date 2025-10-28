@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mein Profil - Mermer Shop</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}">
+</head>
+<body>
+    <nav class="navbar" th:classappend="${role == 'ADMIN'} ? 'admin-theme' : 'user-theme'">
+        <h1 th:text="${role == 'ADMIN'} ? 'Mermer Shop - Admin' : 'Mermer Shop'"></h1>
+        <div class="navbar-right">
+            <span class="navbar-user" th:text="${username}"></span>
+            <a th:href="${role == 'ADMIN'} ? @{/admin/dashboard} : @{/user/dashboard}" class="navbar-link">Dashboard</a>
+            <a th:if="${role == 'USER'}" th:href="@{/cart}" class="navbar-link">Warenkorb</a>
+            <a th:href="@{/profile}" class="navbar-link">Profil</a>
+            <a th:href="@{/logout}" class="navbar-link">Logout</a>
+        </div>
+    </nav>
+    
+    <div class="container dashboard">
+        <div class="card">
+            <h2>Mein Profil</h2>
+            
+            <!-- Erfolgsmeldung -->
+            <div th:if="${param.success}" class="alert alert-success mt-md">
+                Profil erfolgreich aktualisiert!
+            </div>
+            
+            <!-- Fehlermeldung -->
+            <div th:if="${param.error}" class="alert alert-error mt-md" th:text="${param.error}">
+            </div>
+            
+            <form th:action="@{/profile/update}" th:object="${profileDto}" method="post" class="mt-md">
+                <h3>Account-Information</h3>
+                
+                <div class="form-group">
+                    <label for="username">Benutzername (nicht änderbar)</label>
+                    <input type="text" id="username" th:value="${username}" readonly 
+                           style="background-color: #f5f5f5; cursor: not-allowed;">
+                </div>
+                
+                <hr class="mt-lg" style="border: none; border-top: 1px solid #ddd;">
+                
+                <h3 class="mt-lg">Persönliche Daten</h3>
+                
+                <div class="form-group">
+                    <label for="firstName">Vorname</label>
+                    <input type="text" id="firstName" th:field="*{firstName}" 
+                           placeholder="Max">
+                </div>
+                
+                <div class="form-group">
+                    <label for="lastName">Nachname</label>
+                    <input type="text" id="lastName" th:field="*{lastName}" 
+                           placeholder="Mustermann">
+                </div>
+                
+                <div class="form-group">
+                    <label for="birthDate">Geburtstag</label>
+                    <input type="date" id="birthDate" th:field="*{birthDate}">
+                </div>
+                
+                <div class="form-actions mt-lg">
+                    <button type="submit" class="btn btn-primary">Profil speichern</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

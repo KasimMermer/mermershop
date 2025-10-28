@@ -9,6 +9,11 @@
         <span th:unless="${param.updated} or ${param.deleted}">Produkt erfolgreich hinzugefügt!</span>
     </div>
     
+    <!-- Warenkorb Erfolgsmeldung -->
+    <div th:if="${param.cartSuccess}" class="alert alert-success mt-lg">
+        Produkt wurde in den Warenkorb gelegt!
+    </div>
+    
     <!-- Fehlermeldung -->
     <div th:if="${param.error}" class="alert alert-error mt-lg" th:text="${param.error}">
     </div>
@@ -35,6 +40,12 @@
                 <h3 th:text="${product.name}"></h3>
                 <p th:text="${product.description}" class="text-muted"></p>
                 <p><strong th:text="${#numbers.formatDecimal(product.price, 1, 2)} + ' €'"></strong></p>
+                
+                <div th:if="${role} == 'USER'" style="margin-top: 1rem;">
+                    <form th:action="@{/cart/add/{id}(id=${product.id})}" method="post" style="margin: 0;">
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">In den Warenkorb</button>
+                    </form>
+                </div>
                 
                 <!-- Admin Buttons -->
                 <div th:if="${role} == 'ADMIN'" style="display: flex; gap: 0.5rem; margin-top: 1rem;">

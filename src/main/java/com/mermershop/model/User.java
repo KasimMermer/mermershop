@@ -1,5 +1,7 @@
 package com.mermershop.model;
 
+import java.time.LocalDate;
+
 import com.mermershop.enums.UserRoleEnum;
 
 import jakarta.persistence.*;
@@ -23,6 +25,12 @@ public class User {
     
     @Column(nullable = false)
     private String password;
+    
+    private String firstName;
+    
+    private String lastName;
+    
+    private LocalDate birthDate;
     
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)

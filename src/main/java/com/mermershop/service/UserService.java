@@ -1,6 +1,7 @@
 package com.mermershop.service;
 
 import com.mermershop.dto.LoginDto;
+import com.mermershop.dto.ProfileDto;
 import com.mermershop.dto.RegisterDto;
 import com.mermershop.enums.UserRoleEnum;
 import com.mermershop.model.User;
@@ -37,5 +38,16 @@ public class UserService {
     
     public Optional<User> findById(Long id) {
         return userRepository.findById(id);
+    }
+    
+    public User updateProfile(Long userId, ProfileDto profileDto) {
+        User user = userRepository.findById(userId)
+            .orElseThrow(() -> new RuntimeException("Benutzer nicht gefunden."));
+        
+        user.setFirstName(profileDto.getFirstName());
+        user.setLastName(profileDto.getLastName());
+        user.setBirthDate(profileDto.getBirthDate());
+        
+        return userRepository.save(user);
     }
 }

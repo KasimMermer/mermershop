@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Warenkorb - Mermer Shop</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}">
+</head>
+<body>
+    <nav class="navbar" th:classappend="${role == 'ADMIN'} ? 'admin-theme' : 'user-theme'">
+        <h1 th:text="${role == 'ADMIN'} ? 'Mermer Shop - Admin' : 'Mermer Shop'"></h1>
+        <div class="navbar-right">
+            <span class="navbar-user" th:text="${username}"></span>
+            <a th:href="${role == 'ADMIN'} ? @{/admin/dashboard} : @{/user/dashboard}" class="navbar-link">Dashboard</a>
+            <a th:href="@{/cart}" class="navbar-link">Warenkorb (<span th:text="${itemCount}">0</span>)</a>
+            <a th:href="@{/profile}" class="navbar-link">Profil</a>
+            <a th:href="@{/logout}" class="navbar-link">Logout</a>
+        </div>
+    </nav>
+    
+    <div class="container dashboard">
+        <div class="card">
+            <h2>Dein Warenkorb</h2>
+            
+            <!-- Erfolgsmeldungen -->
+            <div th:if="${param.removed}" class="alert alert-success mt-md">
+                Produkt wurde aus dem Warenkorb entfernt!
+            </div>
+            <div th:if="${param.cleared}" class="alert alert-success mt-md">
+                Warenkorb wurde geleert!
+            </div>
+            
+            <!-- Fehlermeldung -->
+            <div th:if="${param.error}" class="alert alert-error mt-md" th:text="${param.error}">
+            </div>
+            
+            <!-- Leerer Warenkorb -->
+            <div th:if="${cartItems == null || #lists.isEmpty(cartItems)}" class="text-center mt-lg">
+                <p class="text-muted">Dein Warenkorb ist leer.</p>
+                <a th:href="@{/user/dashboard}" class="btn btn-primary mt-md">Weiter shoppen</a>
+            </div>
+            
+            <!-- Warenkorb Items -->
+            <div th:unless="${cartItems == null || #lists.isEmpty(cartItems)}">
+                <div th:each="item : ${cartItems}" class="card mt-md" style="display: flex; flex-direction: row; gap: 1rem; align-items: center;">
+                    <!-- Produktbild -->
+                    <img th:src="@{${item.productImageUrl}}" th:alt="${item.productName}" 
+                         style="width: 120px; height: 120px; object-fit: cover; border-radius: 8px;">
+                    
+                    <!-- Produktinfo -->
+                    <div style="flex: 1;">
+                        <h3 th:text="${item.productName}"></h3>
+                        <p class="text-muted" th:text="${item.productDescription}"></p>
+                        <p><strong th:text="${#numbers.formatDecimal(item.productPrice, 1, 2)} + ' €'"></strong></p>
+                    </div>
+                    
+                    <!-- Mengensteuerung -->
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <form th:action="@{/cart/update/{id}(id=${item.productId})}" method="post" style="display: flex; align-items: center; gap: 0.5rem; margin: 0;">
+                            <label for="quantity" style="margin: 0;">Anzahl:</label>
+                            <input type="number" name="quantity" th:value="${item.quantity}" min="1" max="99" 
+                                   style="width: 60px; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
+                            <button type="submit" class="btn btn-secondary">Aktualisieren</button>
+                        </form>
+                        
+                        <form th:action="@{/cart/remove/{id}(id=${item.productId})}" method="post" style="margin: 0;"
+                              onsubmit="return confirm('Produkt aus Warenkorb entfernen?');">
+                            <button type="submit" class="btn btn-secondary" style="background-color: #dc3545;">Delete</button>
+                        </form>
+                    </div>
+                    
+                    <!-- Zwischensumme -->
+                    <div style="text-align: right; min-width: 100px;">
+                        <p><strong th:text="${#numbers.formatDecimal(item.subtotal, 1, 2)} + ' €'"></strong></p>
+                    </div>
+                </div>
+                
+                <!-- Gesamtsumme -->
+                <div class="card mt-lg" style="background-color: #f8f9fa;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <h3>Gesamtsumme</h3>
+                            <p class="text-muted" th:text="${itemCount} + ' Artikel'"></p>
+                        </div>
+                        <h2 th:text="${#numbers.formatDecimal(total, 1, 2)} + ' €'"></h2>
+                    </div>
+                    
+                    <div class="form-actions mt-md">
+                        <button class="btn btn-primary">Zur Kasse</button>
+                        <form th:action="@{/cart/clear}" method="post" style="margin-top: 10px;"
+                              onsubmit="return confirm('Warenkorb wirklich leeren?');">
+                            <button type="submit" class="btn btn-secondary">Warenkorb leeren</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
