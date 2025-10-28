@@ -20,7 +20,8 @@
         <div class="welcome-card">
             <h2>Willkommen, <span th:text="${username}"></span>! 👋</h2>
             <p>Das ist die Benutzeroberfläche.</p>
-            <p>Weitere Funktionen kommen bald...</p>
+            
+            <div th:replace="~{products :: productList}"></div>
         </div>
     </div>
 </body>

@@ -1,5 +1,7 @@
 package com.mermershop.model;
 
+import com.mermershop.enums.UserRoleEnum;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,9 +26,5 @@ public class User {
     
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Role role = Role.USER;
-    
-    public enum Role {
-        USER, ADMIN
-    }
+    private UserRoleEnum role = UserRoleEnum.USER;
 }

@@ -2,7 +2,7 @@ package com.mermershop.controller;
 
 import com.mermershop.dto.LoginDto;
 import com.mermershop.dto.RegisterDto;
-import com.mermershop.model.User;
+import com.mermershop.enums.UserRoleEnum;
 import com.mermershop.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
@@ -38,7 +38,7 @@ public class AuthController {
                     session.setAttribute("username", user.getUsername());
                     session.setAttribute("role", user.getRole().toString());
                     
-                    if (user.getRole() == User.Role.ADMIN) {
+                    if (user.getRole() == UserRoleEnum.ADMIN) {
                         return "redirect:/admin/dashboard";
                     } else {
                         return "redirect:/user/dashboard";
@@ -46,6 +46,7 @@ public class AuthController {
                 })
                 .orElseGet(() -> {
                     model.addAttribute("error", "Ungültiger Benutzername oder Passwort.");
+                    model.addAttribute("loginRequest", new LoginDto());
                     return "login";
                 });
     }
@@ -59,11 +60,13 @@ public class AuthController {
     @PostMapping("/register")
     public String register(@ModelAttribute RegisterDto request, Model model) {
         try {
-            userService.register(request, User.Role.USER);
+            userService.register(request, UserRoleEnum.USER);
             model.addAttribute("success", "Registrierung erfolgreich! Bitte einloggen.");
+            model.addAttribute("loginRequest", new LoginDto());
             return "login";
         } catch (Exception e) {
             model.addAttribute("error", e.getMessage());
+            model.addAttribute("registerRequest", new RegisterDto());
             return "register";
         }
     }

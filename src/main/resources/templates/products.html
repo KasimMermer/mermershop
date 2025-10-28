@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="productList">
+    <!-- Erfolgsmeldung -->
+    <div th:if="${param.success}" class="alert alert-success mt-lg">
+        Produkt erfolgreich hinzugefügt!
+    </div>
+    
+    <!-- Fehlermeldung -->
+    <div th:if="${param.error}" class="alert alert-error mt-lg" th:text="${param.error}">
+    </div>
+    
+    <!-- Produktliste -->
+    <div class="card mt-lg">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h2>Produkte</h2>
+            <div th:if="${role} == 'ADMIN'" class="add-product">
+                <a th:href="@{/products/add}" class="btn btn-primary">Produkt hinzufügen</a>
+            </div>
+        </div>
+        
+        
+        <div th:if="${products == null || #lists.isEmpty(products)}" class="text-center text-muted mt-md">
+            <p>Noch keine Produkte vorhanden.</p>
+        </div>
+        
+        <div th:unless="${products == null || #lists.isEmpty(products)}" class="grid grid-3 mt-md">
+            <div th:each="product : ${products}" class="card">
+                <h3 th:text="${product.name}"></h3>
+                <p th:text="${product.description}" class="text-muted"></p>
+                <p><strong th:text="${#numbers.formatDecimal(product.price, 1, 2)} + ' €'"></strong></p>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

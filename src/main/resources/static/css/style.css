@@ -191,3 +191,10 @@ select:focus {
 .mb-sm { margin-bottom: var(--spacing-sm); }
 .mb-md { margin-bottom: var(--spacing-md); }
 .mb-lg { margin-bottom: var(--spacing-lg); }
+
+/* CUSTOM STYLES */
+.add-product {
+    text-align: center;
+    margin: var(--spacing-lg);
+    width: fit-content;
+}

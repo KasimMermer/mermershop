@@ -20,8 +20,9 @@
         <div class="welcome-card">
             <h2>Willkommen, Admin <span th:text="${username}"></span>! 👑</h2>
             <p>Das ist die Administrationsoberfläche.</p>
-            <p>Weitere Admin-Funktionen kommen bald...</p>
         </div>
+
+        <div th:replace="~{products :: productList}"></div>
     </div>
 </body>
 </html>

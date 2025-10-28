@@ -2,8 +2,11 @@ package com.mermershop.service;
 
 import com.mermershop.dto.LoginDto;
 import com.mermershop.dto.RegisterDto;
+import com.mermershop.enums.UserRoleEnum;
 import com.mermershop.model.User;
 import com.mermershop.repository.UserRepository;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -11,13 +14,10 @@ import java.util.Optional;
 @Service
 public class UserService {
     
-    private final UserRepository userRepository;
-    
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
-    
-    public User register(RegisterDto request, User.Role role) {
+    @Autowired
+    private UserRepository userRepository;
+
+    public User register(RegisterDto request, UserRoleEnum role) {
         if (userRepository.existsByUsername(request.getUsername())) {
             throw new RuntimeException("Benutzername existiert bereits.");
         }
