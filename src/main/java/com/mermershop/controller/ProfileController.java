@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.mermershop.dto.ProfileDto;
 import com.mermershop.model.User;
+import com.mermershop.service.CartService;
 import com.mermershop.service.UserService;
 
 import jakarta.servlet.http.HttpSession;
@@ -16,6 +17,9 @@ import jakarta.servlet.http.HttpSession;
 @Controller
 @RequestMapping("/profile")
 public class ProfileController {
+
+    @Autowired
+    private CartService cartService;
     
     @Autowired
     private UserService userService;
@@ -41,6 +45,7 @@ public class ProfileController {
         model.addAttribute("username", username);
         model.addAttribute("role", role);
         model.addAttribute("profileDto", profileDto);
+        model.addAttribute("itemCount", cartService.getItemCount());
         
         return "profile";
     }

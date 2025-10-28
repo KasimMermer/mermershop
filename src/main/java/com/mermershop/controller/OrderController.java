@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.mermershop.service.CartService;
 import com.mermershop.service.OrderService;
 
 import jakarta.servlet.http.HttpSession;
@@ -14,6 +15,9 @@ import jakarta.servlet.http.HttpSession;
 @Controller
 @RequestMapping("/orders")
 public class OrderController {
+
+    @Autowired
+    private CartService cartService;
     
     @Autowired
     private OrderService orderService;
@@ -33,6 +37,7 @@ public class OrderController {
         model.addAttribute("username", username);
         model.addAttribute("role", role);
         model.addAttribute("orders", orders);
+        model.addAttribute("itemCount", cartService.getItemCount());
         
         return "orders";
     }

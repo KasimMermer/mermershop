@@ -36,6 +36,7 @@ public class DataSeeder {
                 product.setName("1");
                 product.setDescription("Beschreibung für Produkt 1");
                 product.setPrice(100.0);
+                product.setImageUrl("/images/1.webp");
                 productRepository.save(product);
             }
 
@@ -44,6 +45,7 @@ public class DataSeeder {
                 product.setName("2");
                 product.setDescription("Beschreibung für Produkt 2");
                 product.setPrice(200.0);
+                product.setImageUrl("/images/2.webp");
                 productRepository.save(product);
             }
 
@@ -52,6 +54,7 @@ public class DataSeeder {
                 product.setName("3");
                 product.setDescription("Beschreibung für Produkt 3");
                 product.setPrice(300.0);
+                product.setImageUrl("/images/3.webp");
                 productRepository.save(product);
             }
         };

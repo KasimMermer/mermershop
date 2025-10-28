@@ -8,11 +8,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.mermershop.service.CartService;
 import com.mermershop.service.ProductService;
 
 @Controller
 @RequestMapping("/user")
 public class UserController {
+
+    @Autowired
+    private CartService cartService;
 
     @Autowired
     private ProductService productService;
@@ -31,6 +35,7 @@ public class UserController {
         model.addAttribute("username", username);
         model.addAttribute("role", role);
         model.addAttribute("products", products);
+        model.addAttribute("itemCount", cartService.getItemCount());
         return "user-dashboard";
     }
 }

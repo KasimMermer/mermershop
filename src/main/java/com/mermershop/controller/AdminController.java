@@ -1,5 +1,6 @@
 package com.mermershop.controller;
 
+import com.mermershop.service.CartService;
 import com.mermershop.service.ProductService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
-    
+
+    @Autowired
+    private CartService cartService;
+
     @Autowired
     private ProductService productService;
     
@@ -29,6 +33,7 @@ public class AdminController {
         model.addAttribute("username", username);
         model.addAttribute("role", role);
         model.addAttribute("products", products);
+        model.addAttribute("itemCount", cartService.getItemCount());
         return "admin-dashboard";
     }
 }

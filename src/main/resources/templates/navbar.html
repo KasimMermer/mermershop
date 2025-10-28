@@ -6,7 +6,7 @@
                 <h1 th:text="${role == 'ADMIN'} ? 'Mermer Shop - Admin' : 'Mermer Shop'"></h1>
                 <div class="navbar-right">
                     <a th:href="${role == 'ADMIN'} ? @{/admin/dashboard} : @{/user/dashboard}" class="navbar-link">Dashboard</a>
-                    <a th:href="@{/cart}" class="navbar-link">Warenkorb (<span th:text="${itemCount}">0</span>)</a>
+                    <a th:if="${role == 'USER'}" th:href="@{/cart}" class="navbar-link">Warenkorb (<span th:text="${itemCount}">0</span>)</a>
                     <a th:if="${role == 'USER'}" th:href="@{/orders}" class="navbar-link">Bestellungen</a>
                     <a th:href="@{/profile}" class="navbar-link">Profil</a>
                     <a th:href="@{/logout}" class="navbar-link">Logout</a>
