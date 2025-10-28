@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.mermershop.dto.ProductDto;
 import com.mermershop.model.Product;
+import com.mermershop.service.CartService;
 import com.mermershop.service.ProductService;
 
 import jakarta.servlet.http.HttpSession;
@@ -26,11 +27,36 @@ public class ProductController {
     @Autowired
     private ProductService productService;
     
+    @Autowired
+    private CartService cartService;
+    
     @GetMapping
     public String showProducts(Model model) {
         model.addAttribute("products", productService.getAllProducts());
         model.addAttribute("role", session.getAttribute("role"));
         return "products";
+    }
+    
+    @GetMapping("/detail/{id}")
+    public String showProductDetail(@PathVariable Long id, HttpSession session, Model model) {
+        String username = (String) session.getAttribute("username");
+        String role = (String) session.getAttribute("role");
+        
+        if (username == null) {
+            return "redirect:/login";
+        }
+        
+        try {
+            Product product = productService.getProductById(id);
+            model.addAttribute("username", username);
+            model.addAttribute("role", role);
+            model.addAttribute("product", product);
+            model.addAttribute("itemCount", cartService.getItemCount());
+            return "product-detail";
+        } catch (RuntimeException e) {
+            String redirectUrl = "ADMIN".equals(role) ? "/admin/dashboard" : "/user/dashboard";
+            return "redirect:" + redirectUrl + "?error=" + e.getMessage();
+        }
     }
     
     @GetMapping("/add")

@@ -27,21 +27,41 @@
             </div>
         </div>
         
+        <!-- Suchleiste -->
+        <!-- <div class="search-container" style="margin-top: 1.5rem; margin-bottom: 1rem;">
+            <input type="text" 
+                   id="productSearch" 
+                   placeholder="Produkte durchsuchen (Name oder Beschreibung)..." 
+                   style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem;">
+            <div id="searchResults" style="margin-top: 0.5rem; color: #666; font-size: 0.9rem;"></div>
+        </div>
+        -->
+        
         
         <div th:if="${products == null || #lists.isEmpty(products)}" class="text-center text-muted mt-md">
             <p>Noch keine Produkte vorhanden.</p>
         </div>
         
-        <div th:unless="${products == null || #lists.isEmpty(products)}" class="grid grid-3 mt-md">
-            <div th:each="product : ${products}" class="card">
-                <img th:if="${product.imageUrl}" th:src="@{${product.imageUrl}}" 
-                     th:alt="${product.name}" 
-                     style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px; margin-bottom: 1rem;">
-                <h3 th:text="${product.name}"></h3>
-                <p th:text="${product.description}" class="text-muted"></p>
+        <div th:unless="${products == null || #lists.isEmpty(products)}" class="grid grid-3 mt-md" id="productGrid">
+            <div th:each="product : ${products}" class="card product-card" th:attr="data-name=${product.name}, data-description=${product.description}">
+                <a th:href="@{/products/detail/{id}(id=${product.id})}" style="text-decoration: none; color: inherit;">
+                    <img th:if="${product.imageUrl}" th:src="@{${product.imageUrl}}" 
+                         th:alt="${product.name}" 
+                         style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px; margin-bottom: 1rem; cursor: pointer;">
+                </a>
+                <a th:href="@{/products/detail/{id}(id=${product.id})}" style="text-decoration: none; color: inherit;">
+                    <h3 th:text="${product.name}" style="cursor: pointer;"></h3>
+                </a>
+                <p th:text="${product.description}" class="text-muted product-description"></p>
                 <p><strong th:text="${#numbers.formatDecimal(product.price, 1, 2)} + ' €'"></strong></p>
                 
-                <div th:if="${role} == 'USER'" style="margin-top: 1rem;">
+                <div style="margin-top: 1rem;">
+                    <a th:href="@{/products/detail/{id}(id=${product.id})}" class="btn" style="width: 100%; text-align: center; display: inline-block; padding: 0.75rem; background-color: #f0f0f0; color: #333; text-decoration: none; border-radius: 8px; margin-bottom: 0.5rem;">
+                        Details anzeigen
+                    </a>
+                </div>
+                
+                <div th:if="${role} == 'USER'" style="margin-top: 0.5rem;">
                     <form th:action="@{/cart/add/{id}(id=${product.id})}" method="post" style="margin: 0;">
                         <button type="submit" class="btn btn-primary" style="width: 100%;">In den Warenkorb</button>
                     </form>

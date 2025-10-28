@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${product.name} + ' - Mermer Shop'">Produktdetails - Mermer Shop</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}">
+</head>
+<body>
+    <div th:replace="~{navbar :: navbar}"></div>
+    
+    <div class="dashboard-container">
+        <main class="dashboard-main">
+            <!-- Zurück Button -->
+            <div style="margin-bottom: 1.5rem;">
+                <a th:href="@{${role == 'ADMIN' ? '/admin/dashboard' : '/user/dashboard'}}" class="btn" style="background-color: #f0f0f0; color: #333;">
+                    Zurück zur Übersicht
+                </a>
+            </div>
+            
+            <!-- Erfolgsmeldung -->
+            <div th:if="${param.cartSuccess}" class="alert alert-success">
+                Produkt wurde in den Warenkorb gelegt!
+            </div>
+            
+            <!-- Fehlermeldung -->
+            <div th:if="${param.error}" class="alert alert-error" th:text="${param.error}"></div>
+            
+            <!-- Produktdetails -->
+            <div class="card">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                    <!-- Produktbild -->
+                    <div>
+                        <img th:if="${product.imageUrl}" 
+                             th:src="@{${product.imageUrl}}" 
+                             th:alt="${product.name}" 
+                             style="width: 100%; height: auto; max-height: 500px; object-fit: cover; border-radius: 8px;">
+                        <div th:unless="${product.imageUrl}" 
+                             style="width: 100%; height: 400px; background-color: #f0f0f0; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #999;">
+                            Kein Bild verfügbar
+                        </div>
+                    </div>
+                    
+                    <!-- Produktinformationen -->
+                    <div>
+                        <h1 th:text="${product.name}" style="margin-bottom: 1rem;">Produktname</h1>
+                        
+                        <div style="margin-bottom: 1.5rem;">
+                            <h2 style="color: #2563eb; font-size: 2rem; margin: 0;">
+                                <span th:text="${#numbers.formatDecimal(product.price, 1, 2)} + ' €'">0.00 €</span>
+                            </h2>
+                        </div>
+                        
+                        <div style="margin-bottom: 1.5rem;">
+                            <h3 style="margin-bottom: 0.5rem;">Beschreibung</h3>
+                            <p th:text="${product.description}" style="color: #666; line-height: 1.6;">
+                                Produktbeschreibung
+                            </p>
+                        </div>
+                        
+                        <div style="margin-bottom: 1rem;">
+                            <h3 style="margin-bottom: 0.5rem;">Produkt-ID</h3>
+                            <p th:text="${product.id}" style="color: #666;">ID</p>
+                        </div>
+                        
+                        <!-- Aktionen für User -->
+                        <div th:if="${role == 'USER'}" style="margin-top: 2rem;">
+                            <form th:action="@{/cart/add/{id}(id=${product.id})}" method="post" style="display: inline-block; width: 100%;">
+                                <div style="display: flex; gap: 1rem; align-items: center; margin-bottom: 1rem;">
+                                    <label for="quantity" style="font-weight: 600;">Menge:</label>
+                                    <input type="number" id="quantity" name="quantity" value="1" min="1" max="99" 
+                                           style="width: 80px; padding: 0.5rem; border: 1px solid #ddd; border-radius: 8px;">
+                                </div>
+                                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 1rem; font-size: 1.1rem;">
+                                    In den Warenkorb legen
+                                </button>
+                            </form>
+                        </div>
+                        
+                        <!-- Aktionen für Admin -->
+                        <div th:if="${role == 'ADMIN'}" style="margin-top: 2rem; display: flex; gap: 1rem;">
+                            <a th:href="@{/products/edit/{id}(id=${product.id})}" class="btn btn-primary" style="flex: 1; text-align: center;">
+                                Bearbeiten
+                            </a>
+                            <form th:action="@{/products/delete/{id}(id=${product.id})}" method="post" style="flex: 1;"
+                                  onsubmit="return confirm('Möchtest du dieses Produkt wirklich löschen?');">
+                                <button type="submit" class="btn" style="width: 100%; background-color: #dc2626; color: white;">
+                                    Löschen
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Zusätzliche Informationen -->
+            <div class="card" style="margin-top: 2rem;">
+                <h2 style="margin-bottom: 1rem;">Zusätzliche Informationen</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+                    <div>
+                        <h4 style="color: #666; margin-bottom: 0.5rem;">Lieferung</h4>
+                        <p>Kostenloser Versand ab 50€</p>
+                    </div>
+                    <div>
+                        <h4 style="color: #666; margin-bottom: 0.5rem;">Rückgabe</h4>
+                        <p>30 Tage Rückgaberecht</p>
+                    </div>
+                    <div>
+                        <h4 style="color: #666; margin-bottom: 0.5rem;">Garantie</h4>
+                        <p>2 Jahre Herstellergarantie</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <style>
+        @media (max-width: 768px) {
+            .card > div {
+                grid-template-columns: 1fr !important;
+            }
+        }
+    </style>
+</body>
+</html>
