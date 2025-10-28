@@ -14,6 +14,7 @@
             <span class="navbar-user" th:text="${username}"></span>
             <a th:href="${role == 'ADMIN'} ? @{/admin/dashboard} : @{/user/dashboard}" class="navbar-link">Dashboard</a>
             <a th:href="@{/cart}" class="navbar-link">Warenkorb (<span th:text="${itemCount}">0</span>)</a>
+            <a th:if="${role == 'USER'}" th:href="@{/orders}" class="navbar-link">Bestellungen</a>
             <a th:href="@{/profile}" class="navbar-link">Profil</a>
             <a th:href="@{/logout}" class="navbar-link">Logout</a>
         </div>
@@ -87,10 +88,8 @@
                     </div>
                     
                     <div class="form-actions mt-md">
-                        <button class="btn btn-primary">Zur Kasse</button>
-                        <form th:action="@{/cart/clear}" method="post" style="margin-top: 10px;"
-                              onsubmit="return confirm('Warenkorb wirklich leeren?');">
-                            <button type="submit" class="btn btn-secondary">Warenkorb leeren</button>
+                        <form th:action="@{/orders/checkout}" method="post" style="display: inline; margin: 0;">
+                            <button type="submit" class="btn btn-primary">Jetzt kaufen</button>
                         </form>
                     </div>
                 </div>

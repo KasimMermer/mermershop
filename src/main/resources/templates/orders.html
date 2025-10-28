@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meine Bestellungen - Mermer Shop</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}">
+</head>
+<body>
+    <nav class="navbar" th:classappend="${role == 'ADMIN'} ? 'admin-theme' : 'user-theme'">
+        <h1 th:text="${role == 'ADMIN'} ? 'Mermer Shop - Admin' : 'Mermer Shop'"></h1>
+        <div class="navbar-right">
+            <span class="navbar-user" th:text="${username}"></span>
+            <a th:href="${role == 'ADMIN'} ? @{/admin/dashboard} : @{/user/dashboard}" class="navbar-link">Dashboard</a>
+            <a th:if="${role == 'USER'}" th:href="@{/cart}" class="navbar-link">Warenkorb</a>
+            <a th:href="@{/orders}" class="navbar-link">Bestellungen</a>
+            <a th:href="@{/profile}" class="navbar-link">Profil</a>
+            <a th:href="@{/logout}" class="navbar-link">Logout</a>
+        </div>
+    </nav>
+    
+    <div class="container dashboard">
+        <div class="card">
+            <h2>Meine Bestellungen</h2>
+            
+            <!-- Erfolgsmeldung -->
+            <div th:if="${param.success}" class="alert alert-success mt-md">
+                Bestellung erfolgreich aufgegeben!
+            </div>
+            
+            <!-- Keine Bestellungen -->
+            <div th:if="${orders == null || #lists.isEmpty(orders)}" class="text-center mt-lg">
+                <p class="text-muted">Du hast noch keine Bestellungen aufgegeben.</p>
+                <a th:href="@{/user/dashboard}" class="btn btn-primary mt-md">Jetzt shoppen</a>
+            </div>
+            
+            <!-- Bestellungen -->
+            <div th:unless="${orders == null || #lists.isEmpty(orders)}">
+                <div th:each="order : ${orders}" class="card mt-lg" style="background-color: #f8f9fa;">
+                    <!-- Bestellkopf -->
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 1rem; border-bottom: 2px solid #ddd;">
+                        <div>
+                            <h3>Bestellung #<span th:text="${order.id}"></span></h3>
+                            <p class="text-muted">
+                                Bestellt am: <span th:text="${#temporals.format(order.orderDate, 'dd.MM.yyyy HH:mm')}"></span> Uhr
+                            </p>
+                        </div>
+                        <div style="text-align: right;">
+                            <h3 th:text="${#numbers.formatDecimal(order.totalAmount, 1, 2)} + ' €'"></h3>
+                            <p class="text-muted" th:text="${#lists.size(order.items)} + ' Artikel'"></p>
+                        </div>
+                    </div>
+                    
+                    <!-- Bestellpositionen -->
+                    <div style="margin-top: 1rem;">
+                        <div th:each="item : ${order.items}" style="display: flex; gap: 1rem; align-items: center; padding: 0.5rem 0; border-bottom: 1px solid #e0e0e0;">
+                            <!-- Produktbild -->
+                            <img th:if="${item.productImageUrl}" th:src="@{${item.productImageUrl}}" 
+                                 th:alt="${item.productName}" 
+                                 style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px;">
+                            
+                            <!-- Produktinfo -->
+                            <div style="flex: 1;">
+                                <h4 th:text="${item.productName}" style="margin: 0;"></h4>
+                                <p class="text-muted" style="margin: 0.25rem 0;">
+                                    <span th:text="${item.quantity}"></span> × 
+                                    <span th:text="${#numbers.formatDecimal(item.productPrice, 1, 2)} + ' €'"></span>
+                                </p>
+                            </div>
+                            
+                            <!-- Zwischensumme -->
+                            <div style="text-align: right; min-width: 100px;">
+                                <strong th:text="${#numbers.formatDecimal(item.subtotal, 1, 2)} + ' €'"></strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
