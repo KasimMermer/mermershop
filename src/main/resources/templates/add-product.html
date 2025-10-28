@@ -1,1 +1,56 @@
-<h1>Neues Produkt hinzufügen</h1>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Produkt hinzufügen - Mermer Shop</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}">
+</head>
+<body>
+    <nav class="navbar admin-theme">
+        <h1>Mermer Shop - Admin</h1>
+        <div class="navbar-right">
+            <span class="navbar-user" th:text="${username}"></span>
+            <a th:href="@{/admin/dashboard}" class="navbar-link">Dashboard</a>
+            <a th:href="@{/logout}" class="navbar-link">Logout</a>
+        </div>
+    </nav>
+    
+    <div class="container dashboard">
+        <div class="card">
+            <h2>Neues Produkt hinzufügen</h2>
+            
+            <form th:action="@{/products/add}" th:object="${productDto}" method="post" enctype="multipart/form-data" class="mt-md">
+                <div class="form-group">
+                    <label for="name">Produktname</label>
+                    <input type="text" id="name" th:field="*{name}" required 
+                           placeholder="Name des Produkts">
+                </div>
+                
+                <div class="form-group">
+                    <label for="description">Beschreibung</label>
+                    <textarea id="description" th:field="*{description}" rows="4" required
+                              placeholder="Beschreibe das Produkt..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="price">Preis (€)</label>
+                    <input type="number" id="price" th:field="*{price}" step="0.01" min="0" required
+                           placeholder="20.00">
+                </div>
+                
+                <div class="form-group">
+                    <label for="image">Produktbild (jpg, png, webp)</label>
+                    <input type="file" id="image" name="image" accept=".jpg,.jpeg,.png,.webp" required>
+                    <small class="text-muted">Erlaubte Formate: JPG, PNG, WEBP</small>
+                </div>
+                
+                <div class="form-actions mt-md">
+                    <button type="submit" class="btn btn-primary">Produkt speichern</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
