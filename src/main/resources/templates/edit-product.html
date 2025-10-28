@@ -8,14 +8,7 @@
     <link rel="stylesheet" th:href="@{/css/dashboard.css}">
 </head>
 <body>
-    <nav class="navbar admin-theme">
-        <h1>👑 Mermer Shop - Admin</h1>
-        <div class="navbar-right">
-            <span class="navbar-user" th:text="${username}"></span>
-            <a th:href="@{/admin/dashboard}" class="navbar-link">Dashboard</a>
-            <a th:href="@{/logout}" class="navbar-link">Logout</a>
-        </div>
-    </nav>
+    <div th:replace="~{navbar}"></div>
     
     <div class="container dashboard">
         <div class="card">

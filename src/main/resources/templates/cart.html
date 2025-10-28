@@ -8,17 +8,7 @@
     <link rel="stylesheet" th:href="@{/css/dashboard.css}">
 </head>
 <body>
-    <nav class="navbar" th:classappend="${role == 'ADMIN'} ? 'admin-theme' : 'user-theme'">
-        <h1 th:text="${role == 'ADMIN'} ? 'Mermer Shop - Admin' : 'Mermer Shop'"></h1>
-        <div class="navbar-right">
-            <span class="navbar-user" th:text="${username}"></span>
-            <a th:href="${role == 'ADMIN'} ? @{/admin/dashboard} : @{/user/dashboard}" class="navbar-link">Dashboard</a>
-            <a th:href="@{/cart}" class="navbar-link">Warenkorb (<span th:text="${itemCount}">0</span>)</a>
-            <a th:if="${role == 'USER'}" th:href="@{/orders}" class="navbar-link">Bestellungen</a>
-            <a th:href="@{/profile}" class="navbar-link">Profil</a>
-            <a th:href="@{/logout}" class="navbar-link">Logout</a>
-        </div>
-    </nav>
+    <div th:replace="~{navbar}"></div>
     
     <div class="container dashboard">
         <div class="card">

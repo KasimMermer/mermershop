@@ -106,23 +106,25 @@ a:hover {
 }
 
 .btn-primary {
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+    background: var(--primary-dark);
+    /* background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%); */
     color: var(--white);
 }
 
 .btn-primary:hover {
     opacity: 0.9;
-    transform: translateY(-2px);
+    /* transform: translateY(-2px); */
 }
 
 .btn-secondary {
-    background: linear-gradient(135deg, var(--secondary-color) 0%, var(--secondary-dark) 100%);
+    background: var(--secondary-color);
+    /* background: linear-gradient(135deg, var(--secondary-color) 0%, var(--secondary-dark) 100%); */
     color: var(--white);
 }
 
 .btn-secondary:hover {
     opacity: 0.9;
-    transform: translateY(-2px);
+    /* transform: translateY(-2px); */
 }
 
 /* FORMS */

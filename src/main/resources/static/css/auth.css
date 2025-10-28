@@ -1,6 +1,7 @@
 /* AUTHENTICATION PAGES (LOGIN, REGISTER) */
 .auth-page {
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+    background: var(--white);
+    /* background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%); */
     min-height: 100vh;
     display: flex;
     align-items: center;
@@ -9,7 +10,8 @@
 }
 
 .auth-page.admin-theme {
-    background: linear-gradient(135deg, var(--secondary-color) 0%, var(--secondary-dark) 100%);
+    background: var(--white);
+    /* background: linear-gradient(135deg, var(--secondary-color) 0%, var(--secondary-dark) 100%); */
 }
 
 .auth-card {

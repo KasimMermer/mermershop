@@ -1,6 +1,7 @@
 /* ===== NAVBAR ===== */
 .navbar {
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+    background: var(--primary-color);
+    /* background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%); */
     color: var(--white);
     padding: var(--spacing-md);
     display: flex;
@@ -10,7 +11,8 @@
 }
 
 .navbar.admin-theme {
-    background: linear-gradient(135deg, var(--secondary-color) 0%, var(--secondary-dark) 100%);
+    background: var(--secondary-color);
+    /* background: linear-gradient(135deg, var(--secondary-color) 0%, var(--secondary-dark) 100%); */
 }
 
 .navbar h1 {
@@ -34,7 +36,7 @@
     color: var(--white);
     text-decoration: none;
     padding: var(--spacing-sm) var(--spacing-md);
-    background: rgba(255, 255, 255, 0.2);
+    /* background: rgba(255, 255, 255, 0.2); */
     border-radius: var(--radius-sm);
     transition: 0.3s ease;
 }
